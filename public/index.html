@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>jQuery Mobile Page Structure Test</title>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+	<style>
+		img {
+			display: block;
+			margin: 0 auto;
+		}
+
+		.ui-controlgroup-controls {
+			margin-bottom: 10px;
+		}
+
+		.ui-grid-a {
+			padding: 10px;
+		}
+
+		.ui-grid-a>div {
+			text-align: center;
+			background-color: #efefef;
+			padding: 20px;
+		}
+
+		.ui-block-a {
+			border-right: 10px solid #f9f9f9;
+		}
+
+		.ui-block-b {
+			border-left: 10px solid #f9f9f9;
+		}
+
+
+		.pay-bgcolor>div {
+			background-color: #f9f9f9;
+			padding: 0;
+			text-align: left;
+		}
+
+		.z-pad {
+			padding: 0;
+		}
+	</style>
+
+	<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script src="https://kit.fontawesome.com/a512c70283.js" crossorigin="anonymous"></script>
+	<script src="functions.js"></script>
+	<script src="Employee.js"></script>
+	<script>
+		$(document).ready(function () {
+			$("#selectpay").change(function () {
+				selected_value = $("input[name='radio-choice-h-2']:checked").val();
+				if (selected_value == 'S') {
+					$("input[class='clear']").val('');
+					$("#yrSalary").textinput({ disabled: false });
+					$("#empHours").textinput({ disabled: true });
+					$("#empPay").textinput({ disabled: true });
+				} else {
+					$("input[class='clear']").val('');
+					$("#yrSalary").textinput({ disabled: true });
+					$("#empHours").textinput({ disabled: false });
+					$("#empPay").textinput({ disabled: false });
+				}
+			});
+		});
+	</script>
+</head>
+
+<body>
+	<div data-role="page" id="home" data-theme="a">
+		<div data-role="header">
+			<h1>Home page</h1>
+		</div>
+		<div data-role="content">
+			<img src="moocowtechlogo.png">
+			<p>This is where we would put some information on our company and what we are about. Here at moocowtech we
+				work to learn and incorporate updated technologies to better assist in the UI.</p>
+			<ul data-role="listview" data-inset="true" class="ui-alt-icon">
+				<li><a href="#contact">Contact Us</a></li>
+				<li><a href="#dialog" data-rel="dialog" data-transition="pop">Dialog Box</a></li>
+				<li><a href="#table">Current Courses</a></li>
+				<li><a href="#calc">Pay Calculator</a></li>
+				<li><a href="crud.php" data-ajax="false">Simple PHP CRUD application</a></li>
+				<li><a href="#menu">Sample Menu</a></li>
+				<li><a href="#about" data-transition="slideup">About</a></li>
+			</ul>
+		</div>
+		<div data-role="footer">
+			<h4>I'm the footer</h4>
+		</div>
+	</div>
+	<div data-role="page" id="about">
+		<div data-role="header">
+			<h1>About us</h1>
+			<a href="#" data-rel="back"
+				class="ui-btn ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left ui-btn-icon-notext">Back</a>
+		</div>
+		<div data-role="content">
+			<p>Lorem ipsum dolor</p>
+		</div>
+		<div data-role="footer">
+			<p>I'm the footer</p>
+		</div>
+	</div>
+
+	<div data-role="page" id="calc">
+		<div data-role="header">
+			<h1>PayRoll Calculator</h1>
+			<a href="#" data-rel="back"
+				class="ui-btn ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left ui-btn-icon-notext">Back</a>
+		</div>
+		<div data-role="main" class="ui-content">
+			<div data-role="fieldcontain">
+				<form id="payroll" name="payroll">
+					<label for="empName">Name:</label>
+					<input type="text" name="empName" id="empName">
+					<fieldset id="selectpay" data-role="controlgroup" data-type="horizontal" style="margin-bottom:10px;">
+						<legend>Pay Type:</legend>
+						<input type="radio" name="radio-choice-h-2" id="radio-choice-h-2a" value="H">
+						<label for="radio-choice-h-2a">Hourly</label>
+						<input type="radio" name="radio-choice-h-2" id="radio-choice-h-2b" value="S">
+						<label for="radio-choice-h-2b">Salary</label>
+					</fieldset>
+					<label for="yrSalary">Yearly Salary:</label>
+					<input class="clear" type="text" name="yrSalary" id="yrSalary">
+					<div class="ui-grid-a pay-bgcolor z-pad">
+						<div class="ui-block-a">
+							<label for="empHours">Hours Worked:</label>
+							<input class="clear" type="text" name="empHours" id="empHours">
+						</div>
+						<div class="ui-block-b">
+							<label for="empPay">Pay Per Hour:</label>
+							<input class="clear" type="text" name="empPay" id="empPay">
+						</div>
+					</div>
+					<div class="ui-grid-a pay-bgcolor z-pad">
+						<div class="ui-block-a"><input type="button" value="Submit" data-theme="a"
+								onclick="getValue('emp-pay.php', getPay, 'printPay')"></div>
+						<script>
+							$("#radio-choice-h-2a").prop("checked", true);
+							$("#yrSalary").textinput({ disabled: true });
+							$("#empHours").textinput({ disabled: false });
+							$("#empPay").textinput({ disabled: false });
+							function getValue(url, callback, element) {
+								var disabled = $( "input#yrSalary" ).textinput( "option", "disabled" );
+								var ename = $("input#empName").val();
+								var pay = 0;
+								var hours = 0;
+								if (disabled){
+								pay = $("input#empPay").val();
+								hours = $("input#empHours").val();
+								} else{
+								pay = $("input#yrSalary").val();
+								hours = 0;
+								}
+								var hours = $("input#empHours").val();
+								var code = $("input[name='radio-choice-h-2']:checked").val();
+								console.log(`${ename} ${pay} ${hours} ${code}`)
+								//check for null string
+								if (validate(ename, pay, hours))  {
+									const emp = new Employee();
+									emp.addEmployee(ename, pay, hours, code);
+									runCalc(url, callback, element, emp.employee);
+								}
+							}
+						</script>
+						<div class="ui-block-b"><input type="button" value="Test Pay" name="getpay" 
+								data-theme="b" onclick="runCalc('request-pay.php', testPay, 'printPay')"></div>
+					</div>
+				</form>
+				<div id="printPay"></div>
+
+			</div>
+		</div>
+		<div data-role="footer">
+			<p>I'm the footer</p>
+		</div>
+	</div>
+
+	<div data-role="page" id="contact">
+		<div data-role="header">
+			<h1>Contact</h1>
+			<a href="#" data-rel="back"
+				class="ui-btn ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left ui-btn-icon-notext">Back</a>
+		</div>
+		<div data-role="content">
+			<div data-role="fieldcontain">
+				<form action="submit-received.php" id="contact" method="post" name="contact">
+					<label for="custName">Name:</label>
+					<input type="text" name="custName" id="custName">
+					<label for="custEmail">Email:</label>
+					<input type="text" name="custEmail" id="custEmail">
+					<label for="custMessage">Message:</label>
+					<textarea cols="20" rows="10" name="custMessage" id="custMessage"></textarea>
+					<input id="send" name="submit" type="submit" value="Send Message">
+				</form>
+			</div>
+		</div>
+		<div data-role="footer">
+			<h4>I'm the footer</h4>
+		</div>
+	</div>
+	<div data-role="page" id="table">
+		<div data-role="header">
+			<h1>My Coursework</h1>
+			<a href="#" data-rel="back"
+				class="ui-btn ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left ui-btn-icon-notext">Back</a>
+		</div>
+		<div data-role="content">
+			<div data-role="collapsible">
+				<h3>My Spring 2020 Schedule</h3>
+				<table data-role="table" id="table-column-toggle" data-mode="columntoggle"
+					class="ui-responsive table-stroke">
+					<thead>
+						<tr>
+							<th data-priority="1">Course Id</th>
+							<th>Name</th>
+							<th data-priority="2">Instructor</th>
+							<th data-priority="3">Credit Hours</th>
+							<th data-priority="5">Day Code</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>CIS260</td>
+							<td>Software Specification and Design</td>
+							<td>Igor Kholodov</td>
+							<td>4</td>
+							<td>TR</td>
+						</tr>
+						<tr>
+							<td>CIS262</td>
+							<td>Computer Organization and Design</td>
+							<td>Igor Kholodov</td>
+							<td>4</td>
+							<td>TR</td>
+						</tr>
+						<tr>
+							<td>CIS250</td>
+							<td>Interactive Web Sites</td>
+							<td>Priscilla Grocer</td>
+							<td>3</td>
+							<td>ONLINE</td>
+						</tr>
+						<tr>
+							<td>CIS258</td>
+							<td>Advanced Interactive Programmin</td>
+							<td>Priscilla Grcoer</td>
+							<td>3</td>
+							<td>ONLINE</td>
+						</tr>
+						<tr>
+							<td>CIS272</td>
+							<td>Program Development Seminar</td>
+							<td>Priscilla Grocer</td>
+							<td>3</td>
+							<td>ONLINE</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div data-role="collapsible">
+				<h3>My Fall 2019 Schedule</h3>
+				<table data-role="table" id="table-column-toggle" data-mode="columntoggle"
+					class="ui-responsive table-stroke">
+					<thead>
+						<tr>
+							<th data-priority="1">Course Id</th>
+							<th>Name</th>
+							<th data-priority="2">Instructor</th>
+							<th data-priority="3">Credit Hours</th>
+							<th data-priority="5">Day Code</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>CIS123</td>
+							<td>Object-Oriented Concepts</td>
+							<td>Igor Kholodov</td>
+							<td>3</td>
+							<td>M</td>
+						</tr>
+						<tr>
+							<td>CIS132</td>
+							<td>Introduction to Unix/Linux</td>
+							<td>Sil Ferreria</td>
+							<td>3</td>
+							<td>MW</td>
+						</tr>
+						<tr>
+							<td>CIS150</td>
+							<td>Oracle and SQL</td>
+							<td>Priscilla Grocer</td>
+							<td>3</td>
+							<td>TR</td>
+						</tr>
+						<tr>
+							<td>CIS157</td>
+							<td>Object Oriented JAVA Prog. I</td>
+							<td>Igor Kholodov</td>
+							<td>4</td>
+							<td>TR</td>
+						</tr>
+						<tr>
+							<td>CIS255</td>
+							<td>C++ Object Oriented Programming</td>
+							<td>Igor Kholodov</td>
+							<td>3</td>
+							<td>ONLINE</td>
+						</tr>
+						<tr>
+							<td>CIS256</td>
+							<td>Advanced Visual Basics</td>
+							<td>Priscilla Grocer</td>
+							<td>3</td>
+							<td>ONLINE</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div data-role="collapsible">
+				<h3>My Summer 2019 Schedule</h3>
+				<table data-role="table" id="table-column-toggle" data-mode="columntoggle"
+					class="ui-responsive table-stroke">
+					<thead>
+						<tr>
+							<th data-priority="1">Course Id</th>
+							<th>Name</th>
+							<th data-priority="2">Instructor</th>
+							<th data-priority="3">Credit Hours</th>
+							<th data-priority="5">Day Code</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>BIO117</td>
+							<td>Physiology of Wellness</td>
+							<td>Susan Barrett</td>
+							<td>3</td>
+							<td>ONLINE</td>
+						</tr>
+						<tr>
+							<td>EGR133</td>
+							<td>Computer Config and Repair</td>
+							<td>Wayne Golen</td>
+							<td>4</td>
+							<td>MW</td>
+						</tr>
+						<tr>
+							<td>HST113</td>
+							<td>United States History to 1877</td>
+							<td>Donald E Kilguss JR</td>
+							<td>3</td>
+							<td>ONLINE</td>
+						</tr>
+						<tr>
+							<td>MTH131</td>
+							<td>Elements of College Mathematics</td>
+							<td>Daniel Avedikian</td>
+							<td>3</td>
+							<td>ONLINE</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div data-role="collapsible">
+				<h3>My Spring 2019 Schedule</h3>
+				<table data-role="table" id="table-column-toggle" data-mode="columntoggle"
+					class="ui-responsive table-stroke">
+					<thead>
+						<tr>
+							<th data-priority="1">Course Id</th>
+							<th>Name</th>
+							<th data-priority="2">Instructor</th>
+							<th data-priority="3">Credit Hours</th>
+							<th data-priority="5">Day Code</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>BUS115</td>
+							<td>Fund. of Enterprise</td>
+							<td>Jeanne E. Girard</td>
+							<td>1</td>
+							<td>ONLINE</td>
+						</tr>
+
+						<tr>
+							<td>CIS105</td>
+							<td>Hardware Fundamentals</td>
+							<td>Shawn Tivnan</td>
+							<td>1</td>
+							<td>ONLINE</td>
+						</tr>
+
+						<tr>
+							<td>CIS122</td>
+							<td>Internet Developer</td>
+							<td>Priscilla Grocer</td>
+							<td>3</td>
+							<td>TR</td>
+						</tr>
+						<tr>
+							<td>CIS155</td>
+							<td>Intro to C++ Programming</td>
+							<td>Igor Kholodov</td>
+							<td>3</td>
+							<td>TR</td>
+						</tr>
+						<tr>
+							<td>CIS159</td>
+							<td>MySQL and PHP</td>
+							<td>Priscilla Grocer</td>
+							<td>3</td>
+							<td>MW</td>
+						</tr>
+						<tr>
+							<td>CIS160</td>
+							<td>The Microcomputer Environment</td>
+							<td>Janelle Arruda</td>
+							<td>3</td>
+							<td>ONLINE</td>
+						</tr>
+						<tr>
+							<td>CIT102</td>
+							<td>Security Awareness</td>
+							<td>Igor Kholodov</td>
+							<td>1</td>
+							<td>ONLINE</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div data-role="collapsible">
+				<h3>My Fall 2018 Schedule</h3>
+				<table data-role="table" id="table-column-toggle" data-mode="columntoggle"
+					class="ui-responsive table-stroke">
+					<thead>
+						<tr>
+							<th data-priority="1">Course Id</th>
+							<th>Name</th>
+							<th data-priority="2">Instructor</th>
+							<th data-priority="3">Credit Hours</th>
+							<th data-priority="5">Day Code</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>CIS120</td>
+							<td>Prog:Logic Design & Implementation</td>
+							<td>Priscilla Grocer</td>
+							<td>3</td>
+							<td>TR</td>
+						</tr>
+						<tr>
+
+							<td>CIS121</td>
+							<td>Operating Systems</td>
+							<td>Janelle Arruda</td>
+							<td>3</td>
+							<td>TR</td>
+						</tr>
+						<tr>
+							<td>COM114</td>
+							<td>Professional Speaking</td>
+							<td>Michelle Y Murphy</td>
+							<td>3</td>
+							<td>ONLINE</td>
+						</tr>
+						<tr>
+							<td>CIS250</td>
+							<td>COMP II: Writing about Literature</td>
+							<td>Farah Habib</td>
+							<td>3</td>
+							<td>ONLINE</td>
+						</tr>
+						<tr>
+							<td>CIS258</td>
+							<td>US History from 1877</td>
+							<td>Gabriel Pereira</td>
+							<td>3</td>
+							<td>TR</td>
+						</tr>
+						<tr>
+							<td>MTH119</td>
+							<td>Fundamental Statistics</td>
+							<td>Fonda McKnight</td>
+							<td>3</td>
+							<td>MW</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div data-role="footer">
+			<h4>I'm the footer</h4>
+		</div>
+	</div>
+	<div data-role="page" id="dialog">
+		<div data-role="content" data-theme="a">
+			<h3>Share Photos</h3>
+			<a href="action.html" data-role="button" data-theme="b">Email</a>
+			<a href="action.html" data-role="button" data-theme="b">Upload to flickr</a>
+			<a href="action.html" data-role="button" data-theme="b">Share on Facebook</a>
+			<a href="action.html" data-role="button" data-theme="b">Tweet photo</a>
+			<a href="#home" data-role="button" data-rel="back" data-theme="a">Cancel</a>
+		</div>
+	</div>
+	<div data-role="page" data-theme="a" id="menu" class="my-page">
+
+		<div data-role="header">
+			<h1>Listview Responsive Grid</h1>
+			<a href="#" data-rel="back"
+				class="ui-btn ui-corner-all ui-shadow ui-icon-back ui-btn-icon-left ui-btn-icon-notext">Back</a>
+		</div><!-- /header -->
+
+		<div data-role="content" class="ui-content grid-container">
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<i class="fab fa-facebook-f fa-5x"></i>
+				</div>
+				<div class="ui-block-b"><i class="fab fa-instagram fa-5x"></i></div>
+			</div>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<i class="fab fa-twitter fa-5x"></i>
+				</div>
+				<div class="ui-block-b"><i class="fas fa-envelope fa-5x"></i></div>
+			</div>
+			<div class="ui-grid-a">
+				<div class="ui-block-a">
+					<i class="fab fa-github fa-5x"></i>
+				</div>
+				<div class="ui-block-b">
+					<i class="fab fa-linkedin-in fa-5x"></i>
+				</div>
+			</div>
+		</div><!-- /content -->
+
+	</div><!-- /page -->
+
+
+</body>
+
+</html>
