@@ -1,9 +1,9 @@
 <?php
 
-$servername = "localhost";
-$username = "jfletcher17";
-$password = "rkMrWJCS";
-$dbname = "jfletcher17_1";
+$servername = ********;
+$username = *********;
+$password = *********;
+$dbname = *********;
 $dsn = "mysql:host=$servername;dbname=$dbname";
 $options = array(
 		PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
