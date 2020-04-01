@@ -12,19 +12,8 @@ First I was to develop a pay calculator
   http://cisweb.bristolcc.edu/~jfletcher17/jQuery/public/index.html
   
   
-  In order for you to be able to run your own copy of this program you will need to have access to your own mysql database, username and password, update the configuration file :
+  In order for you to be able to run your own copy of this program you will need to have access to your own mysql database, username and password, update the configuration file config.php
   
-  config.php -
-  <?php
-
-$servername = ;//I used localhost for testing
-$username = ; //your username
-$password = ; //your password
-$dbname =  ; //name of the data base to use in the
-$dsn = "mysql:host=$servername;dbname=$dbname";
-$options = array(
-		PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-);
-?>
+ 
 
 **jquery is included from cdn
